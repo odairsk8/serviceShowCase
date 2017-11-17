@@ -7,10 +7,18 @@
     <label for="make">Make</label>
     <input id="name" class="form-control" [(ngModel)]="query.name" #nameFilter="ngModel" required />
   </div>
-  <button class="btn btn-default" (click)="resetFilter()" [disabled]="!nameFilter.valid">Reset</button>
-  <button class="btn btn-primary" (click)="filter()" [disabled]="!nameFilter.valid">Apply Filter</button>
+  <div class="form-group">
+    <label for="foundationStart">From Foundation</label>
+    <input  type="date" id="foundationStart" class="form-control" [(ngModel)]="query.foundationStart" #foundationStart="ngModel" required />
+  </div>
+  <div class="form-group">
+    <label for="toFoundation">To Foundation</label>
+    <input type="date" id="toFoundation" class="form-control" [(ngModel)]="query.foundationEnd" #foundationEnd="ngModel" required />
+  </div>
+  <button class="btn btn-default" (click)="resetFilter()" [disabled]="!nameFilter.valid && !foundationStart.valid && !foundationEnd.valid">Reset</button>
+  <button class="btn btn-primary" (click)="filter()" [disabled]="!nameFilter.valid && !foundationStart.valid && !foundationEnd.valid">Apply Filter</button>
 </div>
-<table class="table">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th *ngFor="let c of columns">

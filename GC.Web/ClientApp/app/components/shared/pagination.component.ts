@@ -22,8 +22,11 @@ import { OnChanges } from '@angular/core';
                 <a (click)="next()" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 </a>
-            </li>
-        </ul>
+			</li>
+			<li><span>showing: <b> {{pageSize}} </b> from <b> {{ totalItems }} </b></span></li>
+			
+		</ul>
+		
     </nav>  
 `
 })

@@ -25,9 +25,6 @@ namespace GC.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(CompanyQueryDTO query)
         {
-            if (!string.IsNullOrEmpty(query.Name))
-                query.FilterBy.Add("name");
-
             var mappedQuery = this.mapper.Map<CompanyQuery>(query);
             var companies = await this.service.GetByQueryAsync(mappedQuery);
             var result = this.mapper.Map<QueryResultDTO<CompanyDTO>>(companies);

@@ -18,6 +18,7 @@
     <label for="history">History</label>
     <textarea type="date" name="history" id="history" [(ngModel)]="company.history" class="form-control" #history="ngModel" rows="5"> </textarea>
   </div>
-  <!-- <button class="btn btn-primary" [disabled]="!f.valid">Save</button> -->
-  <button class="btn btn-primary" [disabled]="!companyForm.valid">Save</button>
+  <!-- <button class="btn btn-defa" [disabled]="!f.valid">Save</button> -->
+  <a class="btn btn-default" [routerLink]="['/company']">Back to list</a>
+  <button class="btn btn-primary" [disabled]="!companyForm.valid">Save</button>  
 </form>

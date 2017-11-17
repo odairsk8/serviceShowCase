@@ -2,6 +2,7 @@
 using GC.Core.Entities;
 using GC.Core.Querying;
 using GC.Web.DTOs;
+using System.Collections.Generic;
 
 namespace GC.Web.Mapping
 {
