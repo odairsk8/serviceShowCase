@@ -20,12 +20,12 @@ namespace GC.Core.Querying
 
         public static IQueryable<T> ApplyFiltering<T>(this IQueryable<T> query, IQueryObject<T> queryObj)
         {
-            var t = queryObj.FilteringMapping.Any(f => queryObj.FilterBy.Contains(f.Key));
-            if (queryObj.FilterBy.Count() == 0 || !queryObj.FilteringMapping.Any(f => queryObj.FilterBy.Contains(f.Key)))
+            var conditions = queryObj.GetConditions();
+            if (conditions.Count() == 0)
                 return query;
 
-            foreach (var item in queryObj.FilterBy)
-                query = query.Where(queryObj.FilteringMapping[item]);
+            foreach (var item in conditions)
+                query = query.Where(item);
 
             return query;
         }

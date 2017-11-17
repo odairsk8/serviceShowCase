@@ -16,16 +16,12 @@ namespace GC.Core.Querying
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string SortBy { get; set; }
-        public List<string> FilterBy { get; set; }
 
         public Dictionary<string, Expression<Func<Company, object>>> OrderingMapping { get; set; }
-        public Dictionary<string, Expression<Func<Company, bool>>> FilteringMapping { get; set; }
-
+       
         public CompanyQuery()
         {
-            this.FilterBy = new List<string>();
             this.CreateOrderMapping();
-            this.CreateFilterMapping();
         }
 
         private void CreateOrderMapping()
@@ -37,12 +33,47 @@ namespace GC.Core.Querying
             };
         }
 
-        private void CreateFilterMapping()
+        public List<Expression<Func<Company, bool>>> GetConditions()
         {
-            this.FilteringMapping = new Dictionary<string, Expression<Func<Company, bool>>>()
-            {
-                ["name"] = f => f.Name.ToLower().Contains(this.Name.ToLower().Trim())
-            };
+            var conditions = new List<Expression<Func<Company, bool>>>();
+
+            if (!string.IsNullOrEmpty(this.Name))
+                conditions.Add(this.ContainNameCondition());
+
+            if (this.FoundationEnd != null || this.FoundationStart != null)
+                conditions.Add(this.FilterByFoundationDateClause());
+
+            return conditions;
         }
+
+        private Expression<Func<Company, bool>> FilterByFoundationDateClause()
+        {
+            if (this.FoundationStart.HasValue && this.FoundationEnd.HasValue)
+                return this.FoundationBetweenPeriodClause();
+            if (this.FoundationStart.HasValue)
+                return this.FoundationFromClause();
+            return this.FoundationToClause();
+        }
+
+        private Expression<Func<Company, bool>> FoundationToClause()
+        {
+            var endDate = this.FoundationEnd.Value.AddDays(1);
+            return company => (company.Foundation <= endDate);
+        }
+
+        private Expression<Func<Company, bool>> FoundationFromClause()
+        {
+            var startDate = this.FoundationStart.Value.AddDays(-1);
+            return company => (company.Foundation >= startDate);
+        }
+
+        private Expression<Func<Company, bool>> FoundationBetweenPeriodClause()
+        {
+            var endDate = this.FoundationEnd.Value.AddDays(1);
+            var startDate = this.FoundationStart.Value.AddDays(-1);
+            return company => (company.Foundation >= startDate && company.Foundation <= endDate);
+        }
+
+        private Expression<Func<Company, bool>> ContainNameCondition() => f => f.Name.ToLower().Contains(this.Name.ToLower().Trim());
     }
 }

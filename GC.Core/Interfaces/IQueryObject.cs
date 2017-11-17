@@ -10,9 +10,8 @@ namespace GC.Core.Interfaces
         int Page { get; set; }
         int PageSize { get; set; }
         string SortBy { get; set; }
-        List<string> FilterBy { get; set; }
 
         Dictionary<string, Expression<Func<T, object>>> OrderingMapping { get; set; }
-        Dictionary<string, Expression<Func<T, bool>>> FilteringMapping { get; set; }
+        List<Expression<Func<T, bool>>> GetConditions();
     }
 }
