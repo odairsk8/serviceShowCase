@@ -1,0 +1,23 @@
+<h1>Company</h1>
+<form (ngSubmit)="submit()" #companyForm="ngForm">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" [(ngModel)]="company.name" class="form-control" required #name="ngModel">
+    <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+      Please specify the name
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="foundation">Foundation date</label>
+    <input type="date" name="foundation" id="foundation" [(ngModel)]="company.foundation" class="form-control" required #foundation="ngModel">
+    <div class="alert alert-danger" *ngIf="foundation.touched && !foundation.valid">
+      Please specify the foundation date
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="history">History</label>
+    <textarea type="date" name="history" id="history" [(ngModel)]="company.history" class="form-control" #history="ngModel" rows="5"> </textarea>
+  </div>
+  <!-- <button class="btn btn-primary" [disabled]="!f.valid">Save</button> -->
+  <button class="btn btn-primary" [disabled]="!companyForm.valid">Save</button>
+</form>

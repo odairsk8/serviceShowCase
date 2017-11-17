@@ -1,0 +1,38 @@
+<h2>Companies</h2>
+<p>
+  <a [routerLink]="['/company/new']" class="btn btn-primary">New Company</a>
+</p>
+<div class="well">
+  <div class="form-group">
+    <label for="make">Make</label>
+    <input id="name" class="form-control" [(ngModel)]="query.name" #nameFilter="ngModel" required />
+  </div>
+  <button class="btn btn-default" (click)="resetFilter()" [disabled]="!nameFilter.valid">Reset</button>
+  <button class="btn btn-primary" (click)="filter()" [disabled]="!nameFilter.valid">Apply Filter</button>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }}
+          <i *ngIf="query.sortBy === c.key" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of queryResult.items">
+      <td>{{ v.id }}</td>
+      <td>{{ v.name }}</td>
+      <td>{{ v.foundation | date:'mediumDate' }}</td>
+      <td>
+        <!-- <a [routerLink]="['/vehicles/', v.id]">View</a> -->
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination [total-items]="queryResult.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>

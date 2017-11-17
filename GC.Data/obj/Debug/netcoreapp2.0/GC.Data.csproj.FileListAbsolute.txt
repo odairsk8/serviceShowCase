@@ -1,0 +1,13 @@
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\GC.Data.deps.json
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\GC.Data.dll
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.csproj.CoreCompileInputs.cache
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.AssemblyInfoInputs.cache
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.AssemblyInfo.cs
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\GC.Core.dll
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\System.Data.Entity.dll
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\pt-BR\System.Data.Entity.resources.dll
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.csprojResolveAssemblyReference.cache
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\GC.Data.pdb
+C:\Projetos\GC\GC.Data\bin\Debug\netcoreapp2.0\GC.Core.pdb
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.dll
+C:\Projetos\GC\GC.Data\obj\Debug\netcoreapp2.0\GC.Data.pdb
