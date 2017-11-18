@@ -2,9 +2,10 @@
 <form (ngSubmit)="submit()" #companyForm="ngForm">
   <div class="form-group">
     <label for="name">Name</label>
-    <input type="text" name="name" id="name" [(ngModel)]="company.name" class="form-control" required #name="ngModel">
+    <input type="text" name="name" id="name" [(ngModel)]="company.name" class="form-control" required minlength="5" #name="ngModel">
     <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
-      Please specify the name
+      <span *ngIf="name.errors.required">Please specify the name</span>
+      <span *ngIf="name.errors.minlength">At least 5 characteres</span>
     </div>
   </div>
   <div class="form-group">

@@ -26,6 +26,11 @@ namespace GC.Data.Repositories
             this.unitOfWork.Complete();
         }
 
+        public async Task SaveAsync()
+        {
+            await this.unitOfWork.CompleteAsync();
+        }
+
         public async Task<QueryResult<TEntity>> GetByQueryAsync(IQueryObject<TEntity> query)
         {
             var queryResult = new QueryResult<TEntity>();
@@ -45,6 +50,11 @@ namespace GC.Data.Repositories
         {
             if (this.context != null)
                 this.context.Dispose();
+        }
+
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            return await this.context.Set<TEntity>().FindAsync(id);
         }
     }
 }

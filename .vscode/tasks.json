@@ -17,6 +17,16 @@
             "problemMatcher": [
                 "$tsc-watch"
             ]
+        },
+        {
+            "label": "build",
+            "command": "dotnet build",
+            "type": "shell",
+            "group": "build",
+            "presentation": {
+                "reveal": "silent"
+            },
+            "problemMatcher": "$msCompile"
         }
     ]
 }

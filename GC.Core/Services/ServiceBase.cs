@@ -24,14 +24,26 @@ namespace GC.Core.Services
             _repository.Add(obj);
         }
 
+        public async Task SaveAsync()
+        {
+            await this._repository.SaveAsync();
+        }
+
         public async Task<QueryResult<TEntity>> GetByQueryAsync(IQueryObject<TEntity> query)
         {
             return await this._repository.GetByQueryAsync(query);
+        }
+
+        public async Task<TEntity> GetByIdAsync(int id)
+        {
+            return await this._repository.GetByIdAsync(id);
         }
 
         public void Dispose()
         {
             this._repository.Dispose();
         }
+
+        
     }
 }

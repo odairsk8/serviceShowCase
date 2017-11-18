@@ -15,6 +15,15 @@ export class CompanyService {
             .map(response => response.json());
     }
 
+    public update(company: Company){
+        return this.http.put(`${this.API_ENDPOINT}/${company.id}`, company)
+        .map(r => r.json());
+    }
+
+    public getById(id: number){
+        return this.http.get(`${this.API_ENDPOINT}/${id}`).map( r => r.json());
+    }
+
     getByQuery(query: any){
         return this.http.get(this.API_ENDPOINT + '?' + this.toQueryString(query)).map(r => r.json());
     }

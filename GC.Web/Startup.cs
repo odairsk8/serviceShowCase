@@ -16,6 +16,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using GC.Core.Entities;
 using GC.Core.Validations;
+using Newtonsoft.Json.Converters;
 
 namespace GC_Web
 {
@@ -40,7 +41,9 @@ namespace GC_Web
 
             services.AddAutoMapper();
             services.AddMvc()
-                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CompanyValidator>());
+                .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<CompanyValidator>())
+                .AddJsonOptions(opt => opt.SerializerSettings.Converters.Add(
+                new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

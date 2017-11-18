@@ -22,6 +22,8 @@ const nonTreeShakableModules = [
     'event-source-polyfill',
     'font-awesome/css/font-awesome.css',
     'jquery',
+    'ng2-toasty',
+    'ng2-toasty/bundles/style-bootstrap.css',
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
 

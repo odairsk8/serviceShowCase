@@ -2,7 +2,9 @@
 using GC.Core.Entities;
 using GC.Core.Querying;
 using GC.Web.DTOs;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace GC.Web.Mapping
 {
@@ -14,7 +16,6 @@ namespace GC.Web.Mapping
 
             CreateMap<Company, KeyValuePairDTO>();
             CreateMap<Company, CompanyDTO>();
-            CreateMap<CompanyQuery, CompanyQueryDTO>();
 
             CreateMap(typeof(QueryResultDTO<>), typeof(QueryResult<>));
 
