@@ -16,12 +16,14 @@ namespace GC.Web.Mapping
 
             CreateMap<Company, KeyValuePairDTO>();
             CreateMap<Company, CompanyDTO>();
+            CreateMap<Photo, PhotoDTO>();
 
             CreateMap(typeof(QueryResultDTO<>), typeof(QueryResult<>));
 
             CreateMap<CompanyDTO, Company>();
             CreateMap<KeyValuePairDTO, Company>();
             CreateMap<CompanyQueryDTO, CompanyQuery>();
+            CreateMap<PhotoDTO, Photo>();
         }
     }
 }

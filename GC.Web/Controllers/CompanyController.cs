@@ -74,8 +74,15 @@ namespace GC.Web.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var company = await this.service.GetByIdAsync(id);
+            if (company == null)
+                return NotFound(id);
+
+            await this.service.DeleteAsync(company);
+
+            return Ok(id);
         }
     }
 }

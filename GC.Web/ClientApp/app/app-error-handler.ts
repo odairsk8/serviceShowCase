@@ -14,8 +14,8 @@ export class AppErrorHandler implements ErrorHandler {
 
         this.ngZone.run(() => {
             if (typeof (window) !== 'undefined') {
-                console.log(error.json());
-                this.userMessageService.error(error);
+                console.log(error);
+                this.userMessageService.error('Unexpected error.');
             }
         });
 

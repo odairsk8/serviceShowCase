@@ -38,6 +38,31 @@ namespace GC.Data.Migrations
 
                     b.ToTable("Company");
                 });
+
+            modelBuilder.Entity("GC.Core.Entities.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CompanyId");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Photo");
+                });
+
+            modelBuilder.Entity("GC.Core.Entities.Photo", b =>
+                {
+                    b.HasOne("GC.Core.Entities.Company")
+                        .WithMany("Photos")
+                        .HasForeignKey("CompanyId");
+                });
 #pragma warning restore 612, 618
         }
     }

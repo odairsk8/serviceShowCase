@@ -7661,6 +7661,9 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
       "projectUniqueName": "C:\\Projetos\\GC\\GC.Core\\GC.Core.csproj",
       "projectName": "GC.Core",
@@ -7696,15 +7699,15 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "FluentValidation.AspNetCore": {
+            "target": "Package",
+            "version": "7.2.1"
+          },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
             "version": "2.0.0",
             "autoReferenced": true
-          },
-          "FluentValidation.AspNetCore": {
-            "target": "Package",
-            "version": "7.2.1"
           }
         },
         "imports": [

@@ -14,5 +14,6 @@ namespace GC.Core.Interfaces.Services
         Task<TEntity> GetByIdAsync(int id);
         Task SaveAsync();
         void Add(TEntity obj);
+        Task DeleteAsync(TEntity obj);
     }
 }

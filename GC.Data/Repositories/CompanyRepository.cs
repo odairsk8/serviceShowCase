@@ -1,10 +1,7 @@
 ﻿using GC.Core.Entities;
-using GC.Core.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using GC.Data.Context;
 using GC.Core.Interfaces;
+using GC.Core.Interfaces.Repositories;
+using GC.Data.Context;
 
 namespace GC.Data.Repositories
 {

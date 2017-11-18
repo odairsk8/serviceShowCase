@@ -13,5 +13,6 @@ namespace GC.Core.Interfaces.Repositories
         void Add(TEntity obj);
         Task SaveAsync();
         Task<TEntity> GetByIdAsync(int id);
+        Task DeleteAsync(TEntity obj);
     }
 }

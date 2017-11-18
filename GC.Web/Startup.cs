@@ -1,8 +1,11 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
+using GC.Core.Entities;
 using GC.Core.Interfaces;
 using GC.Core.Interfaces.Repositories;
 using GC.Core.Interfaces.Services;
 using GC.Core.Services;
+using GC.Core.Validations;
 using GC.Data;
 using GC.Data.Context;
 using GC.Data.Repositories;
@@ -12,10 +15,6 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using GC.Core.Entities;
-using GC.Core.Validations;
 using Newtonsoft.Json.Converters;
 
 namespace GC_Web
@@ -32,6 +31,8 @@ namespace GC_Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<PhotoSettings>(this.Configuration.GetSection("PhotoSettings"));
+
             services.AddDbContext<GCContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));

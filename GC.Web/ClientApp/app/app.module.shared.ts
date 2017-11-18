@@ -6,16 +6,17 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
 
-
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { CompanyFormComponent } from './components/company/company-form/company-form.component';
 import { CompanyListComponent } from './components/company/company-list/company-list.component';
 import { PaginationComponent } from './components/shared/pagination.component';
+import { CompanyDetailsComponent } from './components/company/company-details/company-details.component';
 
-import { UserMessageService } from './components/shared/user-message.service';
 import { CompanyService } from './components/company/company.service';
+import { PhotoService } from './shared-services/photo.service';
+import { UserMessageService } from './components/shared/user-message.service';
 
 import { AppErrorHandler } from './app-error-handler';
 
@@ -25,6 +26,7 @@ import { AppErrorHandler } from './app-error-handler';
         AppComponent,
         NavMenuComponent,
         HomeComponent,
+        CompanyDetailsComponent,
         CompanyFormComponent,
         CompanyListComponent,
         PaginationComponent
@@ -35,7 +37,8 @@ import { AppErrorHandler } from './app-error-handler';
         FormsModule,
         ToastyModule.forRoot(),
         RouterModule.forRoot([
-            { path: '', redirectTo: 'company/new', pathMatch: 'full' },
+            { path: '', redirectTo: 'company', pathMatch: 'full' },
+            { path: 'company/details/:id', component: CompanyDetailsComponent },
             { path: 'company/new', component: CompanyFormComponent },
             { path: 'company/edit/:id', component: CompanyFormComponent },
             { path: 'company', component: CompanyListComponent },
@@ -45,7 +48,9 @@ import { AppErrorHandler } from './app-error-handler';
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
-        CompanyService, UserMessageService
+        CompanyService, 
+        UserMessageService,
+        PhotoService
     ]
 })
 export class AppModuleShared {

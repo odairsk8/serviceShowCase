@@ -29,6 +29,11 @@ namespace GC.Core.Services
             await this._repository.SaveAsync();
         }
 
+        public async Task DeleteAsync(TEntity obj)
+        {
+            await this._repository.DeleteAsync(obj);
+        }
+
         public async Task<QueryResult<TEntity>> GetByQueryAsync(IQueryObject<TEntity> query)
         {
             return await this._repository.GetByQueryAsync(query);

@@ -26,7 +26,7 @@ export class UserMessageService {
             //TODO: show proper error
             this.toastyService.error({
                 title: 'Sucess',
-                msg: 'Something went wrong',
+                msg: error || 'Something went wrong',
                 theme: 'bootstrap',
                 showClose: true,
                 timeout: 5000
