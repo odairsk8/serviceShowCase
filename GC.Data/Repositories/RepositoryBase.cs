@@ -4,7 +4,10 @@ using GC.Core.Interfaces.Repositories;
 using GC.Core.Querying;
 using GC.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace GC.Data.Repositories
@@ -52,17 +55,22 @@ namespace GC.Data.Repositories
             return queryResult;
         }
 
+        public virtual async Task<TEntity> GetByIdAsync(int id, IEnumerable<string> includePaths = null)
+        {
+            if(includePaths == null || includePaths.Count() == 0)
+                return await this.context.Set<TEntity>().FindAsync(id);
+
+            var set = this.context.Set<TEntity>();
+            foreach (var item in includePaths)
+                set.Include(item);
+
+            return await set.FindAsync(id);            
+        }
+
         public void Dispose()
         {
             if (this.context != null)
                 this.context.Dispose();
         }
-
-        public async Task<TEntity> GetByIdAsync(int id)
-        {
-            return await this.context.Set<TEntity>().FindAsync(id);
-        }
-
-
     }
 }

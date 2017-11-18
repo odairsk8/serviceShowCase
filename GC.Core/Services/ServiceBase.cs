@@ -39,9 +39,9 @@ namespace GC.Core.Services
             return await this._repository.GetByQueryAsync(query);
         }
 
-        public async Task<TEntity> GetByIdAsync(int id)
+        public async Task<TEntity> GetByIdAsync(int id, IEnumerable<string> includePaths = null)
         {
-            return await this._repository.GetByIdAsync(id);
+            return await this._repository.GetByIdAsync(id, includePaths);
         }
 
         public void Dispose()

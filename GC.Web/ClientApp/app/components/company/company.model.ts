@@ -3,4 +3,6 @@ export class Company {
     name: string;
     foundation? : Date;
     history: string;
+
+    photos: any[] = [];
 }

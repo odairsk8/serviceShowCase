@@ -34,7 +34,7 @@ namespace GC.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            Company company = await this.service.GetByIdAsync(id);
+            Company company = await this.service.GetByIdAsync(id, includePaths: new[] { "Photos"});
             return Ok(this.mapper.Map<CompanyDTO>(company));
         }
 

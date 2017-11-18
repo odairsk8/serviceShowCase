@@ -12,7 +12,7 @@ namespace GC.Core.Interfaces.Repositories
         Task<QueryResult<TEntity>> GetByQueryAsync(IQueryObject<TEntity> query);
         void Add(TEntity obj);
         Task SaveAsync();
-        Task<TEntity> GetByIdAsync(int id);
+        Task<TEntity> GetByIdAsync(int id, IEnumerable<string> includePaths = null);
         Task DeleteAsync(TEntity obj);
     }
 }

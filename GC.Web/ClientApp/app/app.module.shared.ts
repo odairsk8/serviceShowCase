@@ -2,7 +2,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BrowserXhr } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { ToastyModule } from 'ng2-toasty';
 
@@ -19,6 +19,8 @@ import { PhotoService } from './shared-services/photo.service';
 import { UserMessageService } from './components/shared/user-message.service';
 
 import { AppErrorHandler } from './app-error-handler';
+
+import { BrowserXhrWithProgress, ProgressService } from './shared-services/progress.service';
 
 
 @NgModule({
@@ -48,9 +50,11 @@ import { AppErrorHandler } from './app-error-handler';
     ],
     providers: [
         { provide: ErrorHandler, useClass: AppErrorHandler },
+        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         CompanyService, 
         UserMessageService,
-        PhotoService
+        PhotoService,
+        ProgressService
     ]
 })
 export class AppModuleShared {

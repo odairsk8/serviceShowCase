@@ -17,12 +17,7 @@ import { Company } from './../company.model';
 })
 export class CompanyFormComponent implements OnInit {
 
-  company: Company = {
-    id: 0,
-    name: '',
-    foundation: undefined,
-    history: ''
-  }
+  company: Company = new Company();
 
   constructor(private companyService: CompanyService,
     private userMessageService: UserMessageService,
@@ -37,7 +32,6 @@ export class CompanyFormComponent implements OnInit {
   ngOnInit() {
     if(this.company.id)
       this.companyService.getById(this.company.id).subscribe(c => {
-        console.log(c);
         this.setCompany(c);
       });
   }
