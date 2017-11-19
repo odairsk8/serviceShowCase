@@ -75,6 +75,15 @@ export class CompanyDetailsComponent implements OnInit {
       });
   }
 
+  removePhoto(photoid : number)
+  {
+      this.photoService.removeCompanyPhoto(this.company.id, photoid).subscribe(r => {
+        const indexPhoto = this.company.photos.indexOf(this.company.photos.filter(f => f.id == r)[0]);
+        this.company.photos.splice(indexPhoto, 1);
+        this.userMessageService.success('photo deleted');
+      });
+  }
+
   delete() {
     this.companyService.delete(this.company.id).subscribe(r => {
       this.userMessageService.error('company deleted');

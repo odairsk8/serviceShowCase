@@ -37,8 +37,14 @@ namespace GC_Web
 
             services.AddScoped(typeof(IServiceBase<>), typeof(ServiceBase<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ICompanyService, CompanyService>();
+           
             services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
+
+            services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IPhotoService, PhotoService>();
+
+            services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
 
             services.AddAutoMapper();
             services.AddMvc()

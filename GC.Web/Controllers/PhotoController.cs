@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,17 +20,20 @@ namespace GC.Web.Controllers
     public class PhotoController : Controller
     {
         private readonly ICompanyService companyService;
+        private readonly IPhotoService photoService;
         private readonly IHostingEnvironment host;
         private readonly IMapper mapper;
         private readonly PhotoSettings photoSettings;
 
         public PhotoController(
             ICompanyService companyService,
-            IOptionsSnapshot<PhotoSettings> options, 
+            IPhotoService photoService,
+            IOptionsSnapshot<PhotoSettings> options,
             IHostingEnvironment host,
             IMapper mapper)
         {
             this.companyService = companyService;
+            this.photoService = photoService;
             this.host = host;
             this.mapper = mapper;
             this.photoSettings = options.Value;
@@ -64,23 +68,30 @@ namespace GC.Web.Controllers
             if (!this.photoSettings.IsSupported(file.FileName)) return BadRequest("Invalid file type.");
 
             var uploadFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
-            if (!Directory.Exists(uploadFolderPath))
-                Directory.CreateDirectory(uploadFolderPath);
-
-            var filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadFolderPath, filename);
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-            var photo = new Photo() { FileName = filename };
-            company.Photos.Add(photo);
-            await this.companyService.SaveAsync();
+            var photo = await this.photoService.UploadCompanyPhoto(company, file, uploadFolderPath);
 
             return Ok(this.mapper.Map<PhotoDTO>(photo));
         }
+
+        [HttpDelete]
+        [Route("company/{companyId}")]
+        public async Task<IActionResult> DeleteCompanyPhoto(int companyId, int photoId)
+        {
+            var company = await this.companyService.GetByIdAsync(companyId, includePaths: new[] { "Photos" });
+            if (company == null)
+                return NotFound(companyId);
+
+            var photo = company.Photos.SingleOrDefault(c => c.Id == photoId);
+            if (photo == null)
+                return NotFound(companyId);
+
+            var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
+            await this.photoService.RemoveCompanyPhoto(company, photo, uploadsFolderPath);
+
+            return Ok(photoId);
+        }
+
+
 
         // PUT api/values/5
         [HttpPut("{id}")]
@@ -92,7 +103,7 @@ namespace GC.Web.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            
+
         }
     }
 }

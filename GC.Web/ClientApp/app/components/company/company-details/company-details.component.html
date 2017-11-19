@@ -49,8 +49,9 @@
       <br/>
       <div class="row" *ngIf="company.photos">
         <div class="col-xs-4" *ngFor="let photo of company.photos">
-          <a href="#" class="thumbnail">
+          <a class="thumbnail">
             <img src="/uploads/{{ photo.fileName }}" />
+            <span (click)="removePhoto(photo.id)">remove</span>
           </a>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Http } from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 
@@ -14,6 +14,10 @@ export class PhotoService {
         formData.append('file', photo);
         return this.http.post(`${this.PHOTO_ENDPOINT}/company/${companyId}`, formData)
             .map(m => m.json());
+    }
+    removeCompanyPhoto(companyId: number, photoId: number) {
+        return this.http.delete(`${this.PHOTO_ENDPOINT}/company/${companyId}?photoid=${photoId}`)
+        .map(r => r.json());
     }
 
     // getPhotos(vehicleId: number) {
