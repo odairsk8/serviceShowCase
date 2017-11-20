@@ -16,7 +16,9 @@ export class ProvidedServiceDetailsComponent implements OnInit {
   providedService: any = {};
   companyId: number;
   coverProgress: any ;
+  thumbnailProgress: any ;
   @ViewChild("coverFileInput") coverFileInput: any;
+  @ViewChild("thumbnailFileInput") thumbnailFileInput: any;
 
   constructor(private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
@@ -36,7 +38,7 @@ export class ProvidedServiceDetailsComponent implements OnInit {
 
       if (params['providedServiceId'] && !isNaN(params['providedServiceId'])) {
         this.providedService.id = +params['providedServiceId'];
-        this.companyService.getProvidedServiceById(this.companyId, this.providedService.id)
+        this.companyService.getProvidedServiceDetailsById(this.companyId, this.providedService.id)
           .subscribe(r => this.loadForm(r));
       }
     })
@@ -57,6 +59,8 @@ export class ProvidedServiceDetailsComponent implements OnInit {
   }
 
   uploadCoverPhoto(){
+    //this.trackUpload(this.coverProgress);
+
     this.progressService.startTracking()
     .subscribe(
     progress => {
@@ -84,12 +88,62 @@ export class ProvidedServiceDetailsComponent implements OnInit {
   removeCoverPhoto(){
     this.photoService.removeProvidedServiceCoverPhoto(this.companyId, this.providedService.id)
     .subscribe(photo => {
-      this.providedService.coverImage = undefined;
+      this.providedService.thumbnailPicture = undefined;
     },
     error => {
       console.log('error: ', error);
       this.userMessageService.error(error);
     });
+  }
+
+  uploadThumbnailPhoto(){
+    var progress = this.thumbnailProgress;
+    this.progressService.startTracking()
+    .subscribe(
+    progress => {
+      this.ngZone.run(() => {
+        this.thumbnailProgress = progress;
+      });
+    },
+    (error) => { console.log('Error:', error); },
+    () => this.thumbnailProgress = null);
+
+    var nativeElement = this.thumbnailFileInput.nativeElement;
+    let file = nativeElement.files[0];
+    nativeElement.value = '';
+    this.photoService.uploadProvidedServiceThumbnailPhoto(this.companyId, this.providedService.id, file)
+      .subscribe(photo => {        
+        this.providedService.thumbnailPicture = photo;
+      },
+      error => {
+        console.log('error: ', error);
+        this.userMessageService.error(error);
+      });
+  }
+
+  removeThumbnailPhoto(){
+    this.photoService.removeProvidedServiceThumbnailPhoto(this.companyId, this.providedService.id)
+    .subscribe(photo => {
+      this.providedService.thumbnailPicture = undefined;
+    },
+    error => {
+      console.log('error: ', error);
+      this.userMessageService.error(error);
+    });
+  }
+
+  trackUpload(uploadProgress: any)
+  {
+    this.progressService.startTracking()
+    .subscribe(
+    progress => {
+
+      this.ngZone.run(() => {
+        uploadProgress = progress;
+      });
+    },
+    (error) => { console.log('Error:', error); },
+    () => uploadProgress = null);
   }
 
 }

@@ -7,6 +7,9 @@
         public string CoverTitle { get; set; }
         public string Description { get; set; }
 
+        public string ThumbnailTitle { get; set; }
+        public string ThumbnailDescription { get; set; }
+
         public int CompanyId { get; set; }
     }
 }

@@ -6,7 +6,10 @@ namespace GC.Core.Interfaces.Services
 {
     public interface IProvidedServiceService : IServiceBase<ProvidedService>
     {
-        Task<Photo> UploadCoverPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath);
+        Task<Photo> UploadCoverlPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath);
         Task RemoveCoverPicture(ProvidedService providedService, string uploadsFolderPath);
+
+        Task<Photo> UploadThumbnaillPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath);
+        Task RemoveThumbnailPicture(ProvidedService providedService, string uploadsFolderPath);
     }
 }

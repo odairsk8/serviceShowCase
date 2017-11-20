@@ -46,14 +46,25 @@ namespace GC.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{provideServiceId}")]
-        public async Task<IActionResult> GetById(int provideServiceId)
+        [Route("{provideServiceId}/Details")]
+        public async Task<IActionResult> GetDetails(int provideServiceId)
         {
-            var providedService = await this.service.GetByAsync(c => c.Id == provideServiceId, includes: d => d.CoverImage);
+            var providedService = await this.service.GetByAsync(c => c.Id == provideServiceId, d => d.CoverImage, d=> d.ThumbnailPicture);
             if (service == null)
                 return NotFound(provideServiceId);
 
             return Ok(this.mapper.Map<ProvidedServiceDetailsDTO>(providedService));
+        }
+
+        [HttpGet]
+        [Route("{provideServiceId}")]
+        public async Task<IActionResult> GetById(int provideServiceId)
+        {
+            var providedService = await this.service.GetByAsync(c => c.Id == provideServiceId);
+            if (service == null)
+                return NotFound(provideServiceId);
+
+            return Ok(this.mapper.Map<ProvidedServiceFormDTO>(providedService));
         }
 
         [HttpPost]
@@ -123,7 +134,7 @@ namespace GC.Web.Controllers
 
             var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
             
-            var photo = await this.service.UploadCoverPicture(providedService, file, uploadsFolderPath);
+            var photo = await this.service.UploadCoverlPicture(providedService, file, uploadsFolderPath);
 
             return Ok(this.mapper.Map<PhotoDTO>(photo));
         }
@@ -138,6 +149,41 @@ namespace GC.Web.Controllers
 
             var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
             await this.service.RemoveCoverPicture(providedService, uploadsFolderPath);
+
+            return Ok(providedService.Id);
+        }
+
+        [HttpPost]
+        [Route("{providedServiceId}/Thumbnail")]
+        public async Task<IActionResult> UploadThumbnailPicture(int companyId, int providedServiceId, IFormFile file)
+        {
+            var providedService = await this.service.GetByAsync(c => c.Id == providedServiceId, includes: d => d.ThumbnailPicture);
+            if (providedService == null)
+                return NotFound(companyId);
+
+            if (file == null) return BadRequest("Null file");
+            if (file.Length == 0) return BadRequest("Empty file");
+            if (file.Length > this.photoSettings.MaxBytes) return BadRequest("Maximum file size is 10mb.");
+            if (!this.photoSettings.IsSupported(file.FileName)) return BadRequest("Invalid file type.");
+
+
+            var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
+
+            var photo = await this.service.UploadThumbnaillPicture(providedService, file, uploadsFolderPath);
+
+            return Ok(this.mapper.Map<PhotoDTO>(photo));
+        }
+
+        [HttpDelete]
+        [Route("{providedServiceId}/Thumbnail")]
+        public async Task<IActionResult> DeleteThumbnailPicture(int providedServiceId)
+        {
+            var providedService = await this.service.GetByAsync(c => c.Id == providedServiceId, includes: d => d.ThumbnailPicture);
+            if (providedService == null || providedService.ThumbnailPicture == null)
+                return NotFound(providedService.Id);
+
+            var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
+            await this.service.RemoveThumbnailPicture(providedService, uploadsFolderPath);
 
             return Ok(providedService.Id);
         }

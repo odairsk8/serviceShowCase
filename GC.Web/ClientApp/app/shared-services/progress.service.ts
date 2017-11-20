@@ -21,7 +21,7 @@ export class ProgressService {
     endTracking(){
         if(this.uploadProgress)
             this.uploadProgress.complete();
-    }
+    }    
 
 }
 

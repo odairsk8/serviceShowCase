@@ -41,6 +41,8 @@ export class ProvidedServiceFormComponent implements OnInit {
   }
 
   private loadForm(data: any) {
+    console.log(data);
+    
     this.providedService = data;
   }
 

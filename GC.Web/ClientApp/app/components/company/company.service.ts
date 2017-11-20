@@ -50,6 +50,11 @@ export class CompanyService {
             .map(r => r.json());
     }
 
+    public getProvidedServiceDetailsById(companyId: number, providedServiceId: number) {
+        return this.http.get(`${this.API_ENDPOINT}/${companyId}/ProvidedService/${providedServiceId}/Details`)
+            .map(r => r.json());
+    }
+
     public deleteProvidedServiceById(companyId: number, providedServiceId: number) {
         return this.http.delete(`${this.API_ENDPOINT}/${companyId}/ProvidedService/${providedServiceId}`)
             .map(r => r.json());

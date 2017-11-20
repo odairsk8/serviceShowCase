@@ -9,5 +9,9 @@
 
         public PhotoDTO CoverImage { get; set; }
 
+        public string ThumbnailTitle { get; set; }
+        public string ThumbnailDescription { get; set; }
+        public PhotoDTO ThumbnailPicture { get; set; }
+
     }
 }

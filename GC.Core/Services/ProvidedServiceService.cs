@@ -34,7 +34,7 @@ namespace GC.Core.Services
             }
         }
 
-        public async Task<Photo> UploadCoverPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath)
+        public async Task<Photo> UploadCoverlPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath)
         {
             Photo oldPhoto = providedService.CoverImage ?? null;
 
@@ -49,6 +49,35 @@ namespace GC.Core.Services
 
             await base.SaveAsync();
             return newPhoto;
+        }
+
+        public async Task<Photo> UploadThumbnaillPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath)
+        {
+            Photo oldPhoto = providedService.ThumbnailPicture ?? null;
+
+            var newFile = await this.photoStorage.StorePhoto(uploadsFolderPath, file);
+            var newPhoto = new Photo() { FileName = newFile };
+            providedService.ThumbnailPicture = newPhoto;
+
+            if (oldPhoto != null)
+            {
+                await this.photoRepository.DeleteAsync(oldPhoto);
+                this.photoStorage.removeFile(oldPhoto.FileName, uploadsFolderPath);
+            }
+
+            await base.SaveAsync();
+            return newPhoto;
+        }
+
+        public async Task RemoveThumbnailPicture(ProvidedService providedService, string uploadsFolderPath)
+        {
+            Photo oldPhoto = providedService.ThumbnailPicture ?? null;
+            if (oldPhoto != null)
+            {
+                await this.photoRepository.DeleteAsync(oldPhoto);
+                this.photoStorage.removeFile(oldPhoto.FileName, uploadsFolderPath);
+                await base.SaveAsync();
+            }
         }
     }
 }
