@@ -2,9 +2,6 @@
 using GC.Core.Entities;
 using GC.Core.Querying;
 using GC.Web.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 
 namespace GC.Web.Mapping
 {
@@ -17,6 +14,10 @@ namespace GC.Web.Mapping
             CreateMap<Company, KeyValuePairDTO>();
             CreateMap<Company, CompanyDTO>();
             CreateMap<Photo, PhotoDTO>();
+            CreateMap<ProvidedService, ProvidedServiceListItemDTO>();
+            CreateMap<ProvidedServiceQuery, ProvidedServiceQueryDTO>();
+            CreateMap<ProvidedService, ProvidedServiceFormDTO>();
+            CreateMap<ProvidedService, ProvidedServiceDetailsDTO>();
 
             CreateMap(typeof(QueryResultDTO<>), typeof(QueryResult<>));
 
@@ -24,6 +25,10 @@ namespace GC.Web.Mapping
             CreateMap<KeyValuePairDTO, Company>();
             CreateMap<CompanyQueryDTO, CompanyQuery>();
             CreateMap<PhotoDTO, Photo>();
+            CreateMap<ProvidedServiceQueryDTO, ProvidedServiceQuery>();
+            CreateMap<ProvidedServiceFormDTO, ProvidedService>();
+            CreateMap<ProvidedServiceDetailsDTO, ProvidedService>();
+
         }
     }
 }

@@ -29,6 +29,32 @@ export class CompanyService {
         return this.http.get(`${this.API_ENDPOINT}/${id}`).map(r => r.json());
     }
 
+    public getProvidedServices(query: any) {
+        return this.http.get(`${this.API_ENDPOINT}/${query.companyId}/ProvidedService?`
+            + this.toQueryString(query))
+            .map(r => r.json());
+    }
+
+    public addProvidedService(providedService: any) {
+        return this.http.post(`${this.API_ENDPOINT}/${providedService.companyId}/ProvidedService`, providedService)
+            .map(r => r.json());
+    }
+
+    public updateProvidedService(providedService: any) {
+        return this.http.put(`${this.API_ENDPOINT}/${providedService.companyId}/ProvidedService`, providedService)
+            .map(r => r.json());
+    }
+
+    public getProvidedServiceById(companyId: number, providedServiceId: number) {
+        return this.http.get(`${this.API_ENDPOINT}/${companyId}/ProvidedService/${providedServiceId}`)
+            .map(r => r.json());
+    }
+
+    public deleteProvidedServiceById(companyId: number, providedServiceId: number) {
+        return this.http.delete(`${this.API_ENDPOINT}/${companyId}/ProvidedService/${providedServiceId}`)
+            .map(r => r.json());
+    }
+
     getByQuery(query: any) {
         return this.http.get(this.API_ENDPOINT + '?' + this.toQueryString(query)).map(r => r.json());
     }

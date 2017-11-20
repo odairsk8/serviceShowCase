@@ -11,13 +11,11 @@ namespace GC.Core.Services
 {
     public class PhotoService : ServiceBase<Photo>, IPhotoService
     {
-        private readonly IPhotoRepository _repository;
         private readonly IPhotoStorage photoStorage;
 
         public PhotoService(IPhotoRepository repository, IPhotoStorage photoStorage)
         : base(repository)
         {
-            this._repository = repository;
             this.photoStorage = photoStorage;
         }
 
@@ -37,6 +35,24 @@ namespace GC.Core.Services
             await base.SaveAsync();
 
             return photo;
+        }
+
+        public async Task<Photo> UploadPicture(ProvidedService providedService, IFormFile file, string uploadsFolderPath)
+        {
+            this.photoStorage.removeFile(providedService.CoverImage.FileName, uploadsFolderPath);
+
+            var fileName = await this.photoStorage.StorePhoto(uploadsFolderPath, file);
+
+            var photo = new Photo() { FileName = fileName };
+            providedService.CoverImage = photo;
+            await base.SaveAsync();
+
+            return photo;
+        }
+
+        public void RemovePicture(string filename, string uploadsFolderPath)
+        {
+            this.photoStorage.removeFile(filename, uploadsFolderPath);
         }
     }
 }

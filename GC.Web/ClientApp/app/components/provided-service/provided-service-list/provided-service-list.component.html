@@ -1,0 +1,33 @@
+<h2>Provided Services</h2>
+
+
+<p>
+  <a class="btn btn-primary" [routerLink]="['/company', company.id, 'providedServices', 'new']">New Service</a>
+</p>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th *ngFor="let c of columns">
+        <div *ngIf="c.isSortable" (click)="sortBy(c.key)">
+          {{ c.title }}
+          <i *ngIf="query.sortBy === c.key" class="fa" [class.fa-sort-asc]="query.isSortAscending" [class.fa-sort-desc]="!query.isSortAscending"></i>
+        </div>
+        <div *ngIf="!c.isSortable">
+          {{ c.title }}
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of queryResult.items">
+      <td>{{ v.id }}</td>
+      <td>{{ v.name }}</td>
+      <td>
+        <a [routerLink]="['/company', company.id, 'providedServices','details', v.id]">View</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<pagination [total-items]="queryResult.totalItems" [page-size]="query.pageSize" (page-changed)="onPageChange($event)"></pagination>

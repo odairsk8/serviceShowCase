@@ -20,6 +20,7 @@ namespace GC.Web.Controllers
     public class PhotoController : Controller
     {
         private readonly ICompanyService companyService;
+        private readonly IServiceBase<ProvidedService> providedServiceService;
         private readonly IPhotoService photoService;
         private readonly IHostingEnvironment host;
         private readonly IMapper mapper;
@@ -27,12 +28,14 @@ namespace GC.Web.Controllers
 
         public PhotoController(
             ICompanyService companyService,
+            IServiceBase<ProvidedService> providedServiceService,
             IPhotoService photoService,
             IOptionsSnapshot<PhotoSettings> options,
             IHostingEnvironment host,
             IMapper mapper)
         {
             this.companyService = companyService;
+            this.providedServiceService = providedServiceService;
             this.photoService = photoService;
             this.host = host;
             this.mapper = mapper;
@@ -92,18 +95,5 @@ namespace GC.Web.Controllers
         }
 
 
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-
-        }
     }
 }

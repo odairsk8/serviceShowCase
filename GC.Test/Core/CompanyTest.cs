@@ -18,7 +18,7 @@ namespace GC.Test.Core
         [TestInitialize]
         public void TestInitialize()
         {
-            companyService = new CompanyService(mockCompanyRepository.Object);
+            //companyService = new CompanyService(mockCompanyRepository.Object);
         }
 
         // [TestMethod]

@@ -1,6 +1,9 @@
 ﻿using GC.Core.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Linq.Expressions;
 
 namespace GC.Core.Interfaces.Services
 {
@@ -11,5 +14,6 @@ namespace GC.Core.Interfaces.Services
         Task SaveAsync();
         void Add(TEntity obj);
         Task DeleteAsync(TEntity obj);
+        Task<TEntity> GetByAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
     }
 }

@@ -12,7 +12,7 @@ namespace GC.Core.Services
 {
     public class ServiceBase<TEntity> : IDisposable, IServiceBase<TEntity> where TEntity : class
     {
-        private readonly IRepositoryBase<TEntity> _repository;
+        protected IRepositoryBase<TEntity> _repository;
 
         public ServiceBase(IRepositoryBase<TEntity> repository)
         {
@@ -49,6 +49,9 @@ namespace GC.Core.Services
             this._repository.Dispose();
         }
 
-        
+        public async Task<TEntity> GetByAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            return await this._repository.GetByAsync(predicate, includes);
+        }
     }
 }

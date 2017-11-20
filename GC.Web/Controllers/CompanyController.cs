@@ -4,6 +4,7 @@ using GC.Core.Interfaces.Services;
 using GC.Core.Querying;
 using GC.Web.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GC.Web.Controllers
@@ -84,5 +85,9 @@ namespace GC.Web.Controllers
 
             return Ok(id);
         }
+
+        
     }
+
+    
 }

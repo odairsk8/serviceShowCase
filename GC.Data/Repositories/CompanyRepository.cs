@@ -4,6 +4,7 @@ using GC.Core.Interfaces.Repositories;
 using GC.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GC.Data.Repositories
@@ -21,6 +22,7 @@ namespace GC.Data.Repositories
 
             return await base.context.Set<Company>()
                 .Include(v => v.Photos)
+                .Include(v => v.ProvidedServices)
                 .SingleOrDefaultAsync(i => i.Id == id);
         }
     }

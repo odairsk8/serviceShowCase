@@ -20,6 +20,7 @@ namespace GC.Data.Context
         {
             modelBuilder.ApplyConfiguration<Company>(new CompanyConfiguration());
             modelBuilder.ApplyConfiguration<Photo>(new PhotoConfiguration());
+            modelBuilder.ApplyConfiguration<ProvidedService>(new ProvidedServiceConfiguration());
         }
 
 

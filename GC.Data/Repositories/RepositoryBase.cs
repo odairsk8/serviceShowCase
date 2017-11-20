@@ -37,7 +37,6 @@ namespace GC.Data.Repositories
         public async Task DeleteAsync(TEntity obj)
         {
             this.context.Remove(obj);
-            await this.unitOfWork.CompleteAsync();
         }
 
         public async Task<QueryResult<TEntity>> GetByQueryAsync(IQueryObject<TEntity> query)
@@ -65,6 +64,19 @@ namespace GC.Data.Repositories
                 set.Include(item);
 
             return await set.FindAsync(id);            
+        }
+
+        public async Task<TEntity> GetByAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var result = this.context.Set<TEntity>().AsQueryable();
+            if (includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    result = result.Include(include);
+                }
+            }
+             return await result.FirstOrDefaultAsync(predicate);
         }
 
         public void Dispose()

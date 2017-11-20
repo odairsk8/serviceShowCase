@@ -13,6 +13,7 @@ namespace GC.Core.Interfaces.Repositories
         void Add(TEntity obj);
         Task SaveAsync();
         Task<TEntity> GetByIdAsync(int id, IEnumerable<string> includePaths = null);
+        Task<TEntity> GetByAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
         Task DeleteAsync(TEntity obj);
     }
 }

@@ -57,11 +57,60 @@ namespace GC.Data.Migrations
                     b.ToTable("Photo");
                 });
 
+            modelBuilder.Entity("GC.Core.Entities.ProvidedService", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CompanyId");
+
+                    b.Property<int?>("CoverImageId");
+
+                    b.Property<string>("CoverTitle");
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("ThumbnailDescription");
+
+                    b.Property<int?>("ThumbnailPictureId");
+
+                    b.Property<string>("ThumbnailTitle");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CoverImageId");
+
+                    b.HasIndex("ThumbnailPictureId");
+
+                    b.ToTable("ProvidedService");
+                });
+
             modelBuilder.Entity("GC.Core.Entities.Photo", b =>
                 {
                     b.HasOne("GC.Core.Entities.Company")
                         .WithMany("Photos")
                         .HasForeignKey("CompanyId");
+                });
+
+            modelBuilder.Entity("GC.Core.Entities.ProvidedService", b =>
+                {
+                    b.HasOne("GC.Core.Entities.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("GC.Core.Entities.Photo", "CoverImage")
+                        .WithMany()
+                        .HasForeignKey("CoverImageId");
+
+                    b.HasOne("GC.Core.Entities.Photo", "ThumbnailPicture")
+                        .WithMany()
+                        .HasForeignKey("ThumbnailPictureId");
                 });
 #pragma warning restore 612, 618
         }

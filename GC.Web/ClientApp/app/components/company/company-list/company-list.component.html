@@ -39,6 +39,7 @@
       <td>{{ v.foundation | date:'mediumDate' }}</td>
       <td>
         <a [routerLink]="['/company/details', v.id]">View</a>
+        | <a [routerLink]="['/company', v.id, 'providedServices']">Provided Services</a>
       </td>
     </tr>
   </tbody>
