@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,10 +22,10 @@ namespace GC.Web.Controllers
         private readonly IMapper mapper;
         private readonly IProvidedServiceService service;
         private readonly IHostingEnvironment host;
-        private readonly PhotoSettings photoSettings; 
+        private readonly PhotoSettings photoSettings;
         private readonly ICompanyService companyService;
 
-        public ProvidedServiceController(IMapper mapper, 
+        public ProvidedServiceController(IMapper mapper,
             IProvidedServiceService service,
             IHostingEnvironment host,
             IOptionsSnapshot<PhotoSettings> options,
@@ -46,23 +48,23 @@ namespace GC.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{provideServiceId}/Details")]
-        public async Task<IActionResult> GetDetails(int provideServiceId)
+        [Route("{providedServiceId}/Details")]
+        public async Task<IActionResult> GetDetails(int providedServiceId)
         {
-            var providedService = await this.service.GetByAsync(c => c.Id == provideServiceId, d => d.CoverImage, d=> d.ThumbnailPicture);
+            var providedService = await this.service.GetFullEntity(providedServiceId);
             if (service == null)
-                return NotFound(provideServiceId);
+                return NotFound(providedServiceId);
 
             return Ok(this.mapper.Map<ProvidedServiceDetailsDTO>(providedService));
         }
 
         [HttpGet]
-        [Route("{provideServiceId}")]
-        public async Task<IActionResult> GetById(int provideServiceId)
+        [Route("{providedServiceId}")]
+        public async Task<IActionResult> GetById(int providedServiceId)
         {
-            var providedService = await this.service.GetByAsync(c => c.Id == provideServiceId);
+            var providedService = await this.service.GetFullEntity(providedServiceId);
             if (service == null)
-                return NotFound(provideServiceId);
+                return NotFound(providedServiceId);
 
             return Ok(this.mapper.Map<ProvidedServiceFormDTO>(providedService));
         }
@@ -122,7 +124,7 @@ namespace GC.Web.Controllers
         [Route("{providedServiceId}/CoverPhoto")]
         public async Task<IActionResult> UploadCoverPicture(int companyId, int providedServiceId, IFormFile file)
         {
-            var providedService = await this.service.GetByAsync(c => c.Id == providedServiceId, includes: d => d.CoverImage );
+            var providedService = await this.service.GetByAsync(c => c.Id == providedServiceId, includes: d => d.CoverImage);
             if (providedService == null)
                 return NotFound(companyId);
 
@@ -133,7 +135,7 @@ namespace GC.Web.Controllers
 
 
             var uploadsFolderPath = Path.Combine(this.host.WebRootPath + "\\uploads");
-            
+
             var photo = await this.service.UploadCoverlPicture(providedService, file, uploadsFolderPath);
 
             return Ok(this.mapper.Map<PhotoDTO>(photo));
@@ -186,6 +188,29 @@ namespace GC.Web.Controllers
             await this.service.RemoveThumbnailPicture(providedService, uploadsFolderPath);
 
             return Ok(providedService.Id);
+        }
+
+        [HttpGet]
+        [Route("{providedServiceId}/Features")]
+        public async Task<IActionResult> GetFeatures(int providedServiceId)
+        {
+            var features = await this.service.GetFeatures(providedServiceId);
+            if (features == null || features.Count() == 0)
+                return NotFound(providedServiceId);
+
+            var result = this.mapper.Map<IEnumerable<IncludedFeatureFormDTO>>(features);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("{providedServiceId}/Features")]
+        public async Task<IActionResult> SaveFeatures(int providedServiceId, [FromBody]ICollection<IncludedFeatureFormDTO> featuresDto)
+        {
+            var mappedFeatures = this.mapper.Map<IEnumerable<IncludedFeature>>(featuresDto);
+            await this.service.SaveFeatures(providedServiceId, mappedFeatures);
+
+            await this.service.SaveAsync();
+            return Ok();
         }
     }
 }

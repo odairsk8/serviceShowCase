@@ -26,7 +26,6 @@ namespace GC.Data.Repositories
         public void Add(TEntity obj)
         {
             this.context.Set<TEntity>().Add(obj);
-            this.unitOfWork.Complete();
         }
 
         public async Task SaveAsync()
@@ -79,10 +78,28 @@ namespace GC.Data.Repositories
              return await result.FirstOrDefaultAsync(predicate);
         }
 
+        public async Task<IEnumerable<TEntity>> FilterByAsync(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            var result = this.context.Set<TEntity>().AsQueryable();
+            if (includes.Any())
+            {
+                foreach (var include in includes)
+                {
+                    result = result.Include(include);
+                }
+            }
+            return await result.Where(predicate).ToListAsync();
+        }
+
         public void Dispose()
         {
             if (this.context != null)
                 this.context.Dispose();
+        }
+
+        public void UpdateRange(IEnumerable<TEntity> obj)
+        {
+            this.context.UpdateRange(obj);
         }
     }
 }

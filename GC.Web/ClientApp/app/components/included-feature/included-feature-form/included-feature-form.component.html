@@ -1,0 +1,37 @@
+<h1>Included Feature</h1>
+
+<form (ngSubmit)="submit()" #companyForm="ngForm">
+
+  <a class="btn btn-default" [routerLink]="['/company', companyId, 'providedServices', 'details', providedServiceId]">Back to Details</a>
+  <button type="submit" class="btn btn-primary" [disabled]="!companyForm.valid">Save</button>
+
+  <br>
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" [(ngModel)]="includedFeature.name" class="form-control" required #name="ngModel">
+    <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+      <span *ngIf="name.errors.required">Please specify the name</span>
+    </div>
+  </div>
+  <hr>
+  <h2> 
+      Items
+      <a class="btn btn-primary btn-xs" (click)="addItem()">Add Item</a>
+  </h2>
+  <div class="well">
+    <ng-container *ngIf="includedFeature.features && includedFeature.features.length > 0; else noItems">
+      <div class="form-group" *ngFor="let item of includedFeature.features; let i=index">
+        <input type="text" name="feature{{i}}" id="feature{{i}}" [(ngModel)]="includedFeature.features[i].name" class="form-control"
+          required #name="ngModel">
+        <a class="txt-danger" (click)="removeFeature(i)">remove</a>
+        <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+          <span *ngIf="name.errors.required">Please specify the name</span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noItems>
+      <p class="text-center text-muted">No items</p>
+    </ng-template>
+  </div>
+
+</form>

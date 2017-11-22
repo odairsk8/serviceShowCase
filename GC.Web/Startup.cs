@@ -41,6 +41,7 @@ namespace GC_Web
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IProvidedServiceRepository, ProvidedServiceRepository>();
 
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IPhotoService, PhotoService>();

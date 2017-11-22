@@ -1,9 +1,12 @@
-import { ActivatedRoute, Router } from '@angular/router';
+
 import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { CompanyService } from '../../company/company.service';
 import { UserMessageService } from '../../shared/user-message.service';
 import { ProgressService } from '../../../shared-services/progress.service';
 import { PhotoService } from '../../../shared-services/photo.service';
+import { IncludedFeatureService } from './../../included-feature/included-feature.service';
 
 
 @Component({
@@ -15,18 +18,19 @@ export class ProvidedServiceDetailsComponent implements OnInit {
 
   providedService: any = {};
   companyId: number;
-  coverProgress: any ;
-  thumbnailProgress: any ;
+  coverProgress: any;
+  thumbnailProgress: any;
   @ViewChild("coverFileInput") coverFileInput: any;
   @ViewChild("thumbnailFileInput") thumbnailFileInput: any;
 
   constructor(private activatedRoute: ActivatedRoute,
     private companyService: CompanyService,
+    private includedFeatureService: IncludedFeatureService,
     private userMessageService: UserMessageService,
     private router: Router,
     private ngZone: NgZone,
     private photoService: PhotoService,
-    private progressService: ProgressService,) {
+    private progressService: ProgressService, ) {
 
     this.checkInitialParameters();
   }
@@ -58,25 +62,25 @@ export class ProvidedServiceDetailsComponent implements OnInit {
     });
   }
 
-  uploadCoverPhoto(){
+  uploadCoverPhoto() {
     //this.trackUpload(this.coverProgress);
 
     this.progressService.startTracking()
-    .subscribe(
-    progress => {
+      .subscribe(
+      progress => {
 
-      this.ngZone.run(() => {
-        this.coverProgress = progress;
-      });
-    },
-    (error) => { console.log('Error:', error); },
-    () => this.coverProgress = null);
+        this.ngZone.run(() => {
+          this.coverProgress = progress;
+        });
+      },
+      (error) => { console.log('Error:', error); },
+      () => this.coverProgress = null);
 
     var nativeElement = this.coverFileInput.nativeElement;
     let file = nativeElement.files[0];
     nativeElement.value = '';
     this.photoService.uploadProvidedServiceCoverPhoto(this.companyId, this.providedService.id, file)
-      .subscribe(photo => {        
+      .subscribe(photo => {
         this.providedService.coverImage = photo;
       },
       error => {
@@ -85,34 +89,34 @@ export class ProvidedServiceDetailsComponent implements OnInit {
       });
   }
 
-  removeCoverPhoto(){
+  removeCoverPhoto() {
     this.photoService.removeProvidedServiceCoverPhoto(this.companyId, this.providedService.id)
-    .subscribe(photo => {
-      this.providedService.thumbnailPicture = undefined;
-    },
-    error => {
-      console.log('error: ', error);
-      this.userMessageService.error(error);
-    });
+      .subscribe(photo => {
+        this.providedService.thumbnailPicture = undefined;
+      },
+      error => {
+        console.log('error: ', error);
+        this.userMessageService.error(error);
+      });
   }
 
-  uploadThumbnailPhoto(){
+  uploadThumbnailPhoto() {
     var progress = this.thumbnailProgress;
     this.progressService.startTracking()
-    .subscribe(
-    progress => {
-      this.ngZone.run(() => {
-        this.thumbnailProgress = progress;
-      });
-    },
-    (error) => { console.log('Error:', error); },
-    () => this.thumbnailProgress = null);
+      .subscribe(
+      progress => {
+        this.ngZone.run(() => {
+          this.thumbnailProgress = progress;
+        });
+      },
+      (error) => { console.log('Error:', error); },
+      () => this.thumbnailProgress = null);
 
     var nativeElement = this.thumbnailFileInput.nativeElement;
     let file = nativeElement.files[0];
     nativeElement.value = '';
     this.photoService.uploadProvidedServiceThumbnailPhoto(this.companyId, this.providedService.id, file)
-      .subscribe(photo => {        
+      .subscribe(photo => {
         this.providedService.thumbnailPicture = photo;
       },
       error => {
@@ -121,29 +125,40 @@ export class ProvidedServiceDetailsComponent implements OnInit {
       });
   }
 
-  removeThumbnailPhoto(){
+  removeThumbnailPhoto() {
     this.photoService.removeProvidedServiceThumbnailPhoto(this.companyId, this.providedService.id)
-    .subscribe(photo => {
-      this.providedService.thumbnailPicture = undefined;
-    },
-    error => {
-      console.log('error: ', error);
-      this.userMessageService.error(error);
-    });
+      .subscribe(photo => {
+        this.providedService.thumbnailPicture = undefined;
+      },
+      error => {
+        console.log('error: ', error);
+        this.userMessageService.error(error);
+      });
   }
 
-  trackUpload(uploadProgress: any)
-  {
+  trackUpload(uploadProgress: any) {
     this.progressService.startTracking()
-    .subscribe(
-    progress => {
+      .subscribe(
+      progress => {
 
-      this.ngZone.run(() => {
-        uploadProgress = progress;
-      });
-    },
-    (error) => { console.log('Error:', error); },
-    () => uploadProgress = null);
+        this.ngZone.run(() => {
+          uploadProgress = progress;
+        });
+      },
+      (error) => { console.log('Error:', error); },
+      () => uploadProgress = null);
+  }
+
+  deleteIncludedFeature(index: number) {
+    const id = this.providedService.includedFeatures[index].id;
+    this.includedFeatureService.delete(this.companyId, this.providedService.id, id)
+      .subscribe(
+      success => {
+        this.providedService.includedFeatures.splice(index, 1);
+        this.userMessageService.success('Successfully deleted'); 
+      },
+      error => this.userMessageService.error(error)
+      );
   }
 
 }

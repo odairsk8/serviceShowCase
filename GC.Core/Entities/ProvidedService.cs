@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace GC.Core.Entities
 {
@@ -21,6 +20,13 @@ namespace GC.Core.Entities
         public string Description { get; set; }
         public Photo CoverImage { get; set; }
         public int? CoverImageId { get; set; }
+
+        public List<IncludedFeature> IncludedFeatures { get; set; }
+
+        public ProvidedService()
+        {
+            this.IncludedFeatures = new List<IncludedFeature>();
+        }
 
     }
 }

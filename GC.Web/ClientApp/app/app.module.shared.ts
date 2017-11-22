@@ -25,6 +25,8 @@ import { AppErrorHandler } from './app-error-handler';
 
 import { BrowserXhrWithProgress, ProgressService } from './shared-services/progress.service';
 import { ProvidedServiceDetailsComponent } from './components/provided-service/provided-service-details/provided-service-details.component';
+import { IncludedFeatureFormComponent } from './components/included-feature/included-feature-form/included-feature-form.component';
+import { IncludedFeatureService } from './components/included-feature/included-feature.service';
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { ProvidedServiceDetailsComponent } from './components/provided-service/p
         CompanyListComponent,
         ProvidedServiceListComponent,
         ProvidedServiceFormComponent,
-        ProvidedServiceDetailsComponent
+        ProvidedServiceDetailsComponent,
+        IncludedFeatureFormComponent
     ],
     imports: [
         CommonModule,
@@ -47,6 +50,7 @@ import { ProvidedServiceDetailsComponent } from './components/provided-service/p
         ToastyModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'company', pathMatch: 'full' },
+            { path: 'company', component: CompanyListComponent },
             { path: 'company/details/:id', component: CompanyDetailsComponent },
             { path: 'company/new', component: CompanyFormComponent },
             { path: 'company/edit/:id', component: CompanyFormComponent },
@@ -54,7 +58,8 @@ import { ProvidedServiceDetailsComponent } from './components/provided-service/p
             { path: 'company/:companyId/providedServices/new', component: ProvidedServiceFormComponent },
             { path: 'company/:companyId/providedServices/edit/:providedServiceId', component: ProvidedServiceFormComponent },
             { path: 'company/:companyId/providedServices/details/:providedServiceId', component: ProvidedServiceDetailsComponent },
-            { path: 'company', component: CompanyListComponent },
+            { path: 'company/:companyId/providedService/:providedServiceId/IncludedFeature/new', component: IncludedFeatureFormComponent },
+            { path: 'company/:companyId/providedService/:providedServiceId/IncludedFeature/:includedFeatureId', component: IncludedFeatureFormComponent },
             { path: 'home', component: HomeComponent },
             { path: '**', redirectTo: 'home' }
         ])
@@ -64,6 +69,7 @@ import { ProvidedServiceDetailsComponent } from './components/provided-service/p
         { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         CompanyService, 
         UserMessageService,
+        IncludedFeatureService,
         PhotoService,
         ProgressService
     ]

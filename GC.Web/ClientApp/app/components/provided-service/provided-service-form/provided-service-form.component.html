@@ -6,50 +6,95 @@
   <a class="btn btn-default" [routerLink]="['/company', companyId, 'providedServices', 'details', providedService.id]">Back to Details</a>
   <button type="submit" class="btn btn-primary" [disabled]="!companyForm.valid">Save</button>
 
-  <div class="form-group">
-    <label for="name">Name</label>
-    <input type="text" name="name" id="name" [(ngModel)]="providedService.name" class="form-control" required minlength="5" #name="ngModel">
-    <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
-      <span *ngIf="name.errors.required">Please specify the name</span>
-      <span *ngIf="name.errors.minlength">At least 5 characteres</span>
+
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a href="#info" aria-controls="info" role="tab" data-toggle="tab">Info</a>
+    </li>
+    <li role="presentation">
+      <a href="#includedFeatures" aria-controls="photos" role="tab" data-toggle="tab">Included Features</a>
+    </li>
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="info">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" [(ngModel)]="providedService.name" class="form-control" required minlength="5" #name="ngModel">
+        <div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+          <span *ngIf="name.errors.required">Please specify the name</span>
+          <span *ngIf="name.errors.minlength">At least 5 characteres</span>
+        </div>
+      </div>
+      <hr>
+      <h2>Cover</h2>
+
+      <div class="form-group">
+        <label for="coverTitle">Title</label>
+        <input type="text" name="coverTitle" id="coverTitle" [(ngModel)]="providedService.coverTitle" class="form-control" minlength="5"
+          #coverTitle="ngModel">
+        <div class="alert alert-danger" *ngIf="coverTitle.invalid && (coverTitle.dirty || coverTitle.touched)">
+          <span *ngIf="coverTitle.errors.required">Please specify the name</span>
+          <span *ngIf="coverTitle.errors.minlength">At least 5 characteres</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="coverDescription">Description</label>
+        <textarea type="text" name="coverDescription" id="coverDescription" [(ngModel)]="providedService.description" class="form-control"
+          minlength="5" #coverDescription="ngModel" rows="5"></textarea>
+      </div>
+
+      <hr>
+      <h2>Thumbnail</h2>
+
+      <div class="form-group">
+        <label for="thumbnailTitle">Thumbnail title</label>
+        <input type="text" name="thumbnailTitle" id="thumbnailTitle" [(ngModel)]="providedService.thumbnailTitle" class="form-control"
+          minlength="5" #thumbnailTitle="ngModel">
+        <div class="alert alert-danger" *ngIf="thumbnailTitle.invalid && (thumbnailTitle.dirty || thumbnailTitle.touched)">
+          <span *ngIf="thumbnailTitle.errors.minlength">At least 5 characteres</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="thumbnailDescription">Thumbnail Description</label>
+        <textarea type="text" name="thumbnailDescription" id="thumbnailDescription" [(ngModel)]="providedService.thumbnailDescription"
+          class="form-control" minlength="5" #thumbnailDescription="ngModel" rows="5"></textarea>
+      </div>
+
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="includedFeatures">
+      <h2>Include Features</h2>
+      <div class="well" *ngFor="let includedItem of providedService.includedFeatures; let i=index">
+
+        <div class="form-group">
+          <label for="includedFeatures{{i}}">Name</label>
+          <input type="text" name="includedFeatures{{i}}" id="includedFeatures{{i}}" [(ngModel)]="providedService.includedFeatures[i].name"
+            class="form-control" #includedFeature="ngModel">
+          <div class="alert alert-danger" *ngIf="coverTitle.invalid && (coverTitle.dirty || coverTitle.touched)">
+            <span *ngIf="includedFeature.errors.required">Please specify the name</span>
+            <span *ngIf="includedFeature.errors.minlength">At least 5 characteres</span>
+          </div>
+        </div>
+
+        <h3>Features</h3>
+
+        <div class="well" *ngFor="let feature of includedItem.features; let f=index">
+          <div class="form-group">
+            <label for="{{i}}feature{{f}}">Name</label>
+            <input type="text" name="{{i}}feature{{f}}" id="{{i}}feature{{f}}" [(ngModel)]="providedService.includedFeatures[i].features[f].name"
+              class="form-control" #includedFeature="ngModel">
+
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
-  <hr>
-  <h2>Cover</h2>
 
-  <div class="form-group">
-    <label for="coverTitle">Title</label>
-    <input type="text" name="coverTitle" id="coverTitle" [(ngModel)]="providedService.coverTitle" class="form-control" minlength="5"
-      #coverTitle="ngModel">
-    <div class="alert alert-danger" *ngIf="coverTitle.invalid && (coverTitle.dirty || coverTitle.touched)">
-      <span *ngIf="coverTitle.errors.required">Please specify the name</span>
-      <span *ngIf="coverTitle.errors.minlength">At least 5 characteres</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="coverDescription">Description</label>
-    <textarea type="text" name="coverDescription" id="coverDescription" [(ngModel)]="providedService.description" class="form-control"
-      minlength="5" #coverDescription="ngModel" rows="5"></textarea>
-  </div>
-
-  <hr>
-  <h2>Thumbnail</h2>
-
-  <div class="form-group">
-    <label for="thumbnailTitle">Thumbnail title</label>
-    <input type="text" name="thumbnailTitle" id="thumbnailTitle" [(ngModel)]="providedService.thumbnailTitle" class="form-control"
-      minlength="5" #thumbnailTitle="ngModel">
-    <div class="alert alert-danger" *ngIf="thumbnailTitle.invalid && (thumbnailTitle.dirty || thumbnailTitle.touched)">
-      <span *ngIf="thumbnailTitle.errors.minlength">At least 5 characteres</span>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="thumbnailDescription">Thumbnail Description</label>
-    <textarea type="text" name="thumbnailDescription" id="thumbnailDescription" [(ngModel)]="providedService.thumbnailDescription" class="form-control"
-      minlength="5" #thumbnailDescription="ngModel" rows="5"></textarea>
-  </div>
 
 
 </form>

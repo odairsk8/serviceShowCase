@@ -49,6 +49,7 @@ namespace GC.Web.Controllers
                 return BadRequest(ModelState);
 
             this.service.Add(mappedObj);
+            this.service.SaveAsync();
             var resultObj = this.mapper.Map<CompanyDTO>(mappedObj);
 
             return Ok(resultObj);

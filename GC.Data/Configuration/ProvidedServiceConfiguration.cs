@@ -12,6 +12,7 @@ namespace GC.Data.Configuration
         public void Configure(EntityTypeBuilder<ProvidedService> builder)
         {
             builder.Property(c => c.Name).IsRequired();
+            builder.HasMany(c => c.IncludedFeatures).WithOne();
         }
     }
 }

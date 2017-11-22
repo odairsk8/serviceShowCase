@@ -19,6 +19,7 @@ namespace GC.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration<Company>(new CompanyConfiguration());
+            modelBuilder.ApplyConfiguration<IncludedFeature>(new IncludedFeatureConfiguration());
             modelBuilder.ApplyConfiguration<Photo>(new PhotoConfiguration());
             modelBuilder.ApplyConfiguration<ProvidedService>(new ProvidedServiceConfiguration());
         }

@@ -39,6 +39,42 @@ namespace GC.Data.Migrations
                     b.ToTable("Company");
                 });
 
+            modelBuilder.Entity("GC.Core.Entities.Feature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("IncludedFeatureId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IncludedFeatureId");
+
+                    b.ToTable("Feature");
+                });
+
+            modelBuilder.Entity("GC.Core.Entities.IncludedFeature", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("FeaturePictureId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("ProvidedServiceId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FeaturePictureId");
+
+                    b.HasIndex("ProvidedServiceId");
+
+                    b.ToTable("IncludedFeature");
+                });
+
             modelBuilder.Entity("GC.Core.Entities.Photo", b =>
                 {
                     b.Property<int>("Id")
@@ -90,6 +126,26 @@ namespace GC.Data.Migrations
                     b.ToTable("ProvidedService");
                 });
 
+            modelBuilder.Entity("GC.Core.Entities.Feature", b =>
+                {
+                    b.HasOne("GC.Core.Entities.IncludedFeature")
+                        .WithMany("Features")
+                        .HasForeignKey("IncludedFeatureId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("GC.Core.Entities.IncludedFeature", b =>
+                {
+                    b.HasOne("GC.Core.Entities.Photo", "FeaturePicture")
+                        .WithMany()
+                        .HasForeignKey("FeaturePictureId");
+
+                    b.HasOne("GC.Core.Entities.ProvidedService")
+                        .WithMany("IncludedFeatures")
+                        .HasForeignKey("ProvidedServiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("GC.Core.Entities.Photo", b =>
                 {
                     b.HasOne("GC.Core.Entities.Company")
@@ -100,7 +156,7 @@ namespace GC.Data.Migrations
             modelBuilder.Entity("GC.Core.Entities.ProvidedService", b =>
                 {
                     b.HasOne("GC.Core.Entities.Company", "Company")
-                        .WithMany()
+                        .WithMany("ProvidedServices")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade);
 

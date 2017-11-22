@@ -1,4 +1,6 @@
-﻿namespace GC.Web.DTOs
+﻿using System.Collections.Generic;
+
+namespace GC.Web.DTOs
 {
     public class ProvidedServiceDetailsDTO
     {
@@ -12,6 +14,8 @@
         public string ThumbnailTitle { get; set; }
         public string ThumbnailDescription { get; set; }
         public PhotoDTO ThumbnailPicture { get; set; }
+
+        public IEnumerable<IncludedFeatureFormDTO> IncludedFeatures {get;set;}
 
     }
 }
